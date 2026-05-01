@@ -125,7 +125,7 @@ export default function ChatInterface() {
           </h3>
           <div className="flex flex-col gap-2">
             {['"What projects have you built?"', '"What are your skills?"', '"How can I contact you?"'].map(q => (
-              <button key={q} onClick={() => handleSendMessage(q.replace(/"/g, ''))} className="text-left text-xs bg-[var(--color-card-border)] hover:bg-white/10 p-2 rounded-lg transition-colors text-foreground/80">
+              <button key={q} onClick={() => handleSendMessage(q.replace(/"/g, ''))} className="text-left text-xs bg-[var(--color-card-border)] hover:bg-white/10 p-2 rounded-lg transition-colors text-foreground/80" suppressHydrationWarning>
                 {q}
               </button>
             ))}
@@ -206,6 +206,7 @@ export default function ChatInterface() {
                 key={btn.label}
                 onClick={() => handleSendMessage(`Show me your ${btn.label.toLowerCase()}`)}
                 className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium bg-[var(--color-card-border)] border border-[var(--color-card-border)] hover:bg-white/10 transition-colors"
+                suppressHydrationWarning
               >
                 <btn.icon className="w-3.5 h-3.5 text-brand-purple" />
                 {btn.label}
