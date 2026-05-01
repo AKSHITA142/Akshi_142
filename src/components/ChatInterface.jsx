@@ -8,26 +8,28 @@ import { useRouter } from 'next/navigation';
 export default function ChatInterface() {
   const router = useRouter();
   const [messages, setMessages] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const saved = sessionStorage.getItem('portfolioChatHistory');
-    if (saved) {
+    if (saved && saved !== '[]') {
       setMessages(JSON.parse(saved));
     } else {
       setMessages([{ id: '1', type: 'system', content: "Hello! I'm your AI portfolio assistant. I can help you navigate through different sections, answer questions, or provide quick insights. Try asking me something!" }]);
     }
-    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (messages.length > 0) {
       sessionStorage.setItem('portfolioChatHistory', JSON.stringify(messages));
     }
-  }, [messages, isLoaded]);
+  }, [messages]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const handleSendMessage = useCallback(async (text) => {
     if (!text.trim()) return;
