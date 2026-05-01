@@ -15,7 +15,7 @@ export default function Template({ children }) {
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1200); // 1.2s loading
+    }, 900); // 0.9s loading
 
     return () => clearTimeout(timer);
   }, [pathname]);

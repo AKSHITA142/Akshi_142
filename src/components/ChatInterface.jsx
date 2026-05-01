@@ -62,15 +62,15 @@ export default function ChatInterface() {
       // Combine UI actions based on user intent
       const lower = text.toLowerCase();
       if (lower.includes('show me your projects') || lower.includes('open projects')) {
-        setTimeout(() => router.push('/projects'), 2000);
+        setTimeout(() => router.push('/projects'), 900);
       } else if (lower.includes('what are your skills') || lower.includes('open skills')) {
-        setTimeout(() => router.push('/skills'), 2000);
+        setTimeout(() => router.push('/skills'), 900);
       } else if (lower.includes('contact you') || lower.includes('open contact')) {
-        setTimeout(() => router.push('/contact'), 2000);
+        setTimeout(() => router.push('/contact'), 900);
       } else if (lower.includes('resume') || lower.includes('experience')) {
-        setTimeout(() => router.push('/resume'), 2000);
+        setTimeout(() => router.push('/resume'), 900);
       } else if (lower.includes('about')) {
-        setTimeout(() => router.push('/about'), 2000);
+        setTimeout(() => router.push('/about'), 900);
       }
 
     } catch (error) {

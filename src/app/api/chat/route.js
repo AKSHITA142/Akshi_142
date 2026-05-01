@@ -40,7 +40,7 @@ export async function POST(req) {
       * If the user asks about projects, list the relevant ones.
       * If the user asks for the "best" or "most advanced" project, pick one marked 'advanced'.
       * If the user asks about skills, list them clearly.
-      * Keep answers concise, helpful, and professional (1-3 short paragraphs max).
+      * Keep answers extremely concise and direct. MAXIMUM 2 sentences!
       * If the question is entirely unrelated to the portfolio, development, or tech, gently steer them back to the portfolio or say you can't help with that.
       
       Data:
@@ -64,8 +64,8 @@ export async function POST(req) {
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 500,
+            temperature: 0.5,
+            maxOutputTokens: 150,
           }
         })
       }
