@@ -29,7 +29,7 @@ export default function ChatInterface() {
     }
   }, [messages, isLoaded]);
 
-  const handleSendMessage = useCallback((text) => {
+  const handleSendMessage = useCallback(async (text) => {
     if (!text.trim()) return;
 
     const newUserMsg = { id: Date.now().toString(), type: 'user', content: text };
@@ -37,26 +37,52 @@ export default function ChatInterface() {
     setInputValue('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      let sysReply = { id: (Date.now() + 1).toString(), type: 'system', content: '' };
-      const lower = text.toLowerCase();
+    try {
+      // Pass the message to our Gemini API route
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: text,
+          // If you had a currentProject state, it would go here
+          currentProject: null 
+        })
+      });
 
-      if (lower.includes('project') || lower.includes('work')) {
-        sysReply.content = 'Accessing project database. Opening the Projects section now...';
-        setTimeout(() => router.push('/projects'), 1500);
-      } else if (lower.includes('skill') || lower.includes('tech')) {
-        sysReply.content = 'Loading technical matrix. Redirecting to Skills section...';
-        setTimeout(() => router.push('/skills'), 1500);
-      } else if (lower.includes('about') || lower.includes('who')) {
-        sysReply.content = 'Retrieving profile information. Redirecting to About section...';
-        setTimeout(() => router.push('/about'), 1500);
-      } else {
-        sysReply.content = "I'm not sure about that. Try asking about my projects, skills, or background!";
-      }
+      const data = await res.json();
+      
+      const sysReply = { 
+        id: (Date.now() + 1).toString(), 
+        type: 'system', 
+        content: data.reply || "Sorry, I couldn't process that." 
+      };
 
       setMessages(prev => [...prev, sysReply]);
+
+      // Combine UI actions based on user intent
+      const lower = text.toLowerCase();
+      if (lower.includes('show me your projects') || lower.includes('open projects')) {
+        setTimeout(() => router.push('/projects'), 2000);
+      } else if (lower.includes('what are your skills') || lower.includes('open skills')) {
+        setTimeout(() => router.push('/skills'), 2000);
+      } else if (lower.includes('contact you') || lower.includes('open contact')) {
+        setTimeout(() => router.push('/contact'), 2000);
+      } else if (lower.includes('resume') || lower.includes('experience')) {
+        setTimeout(() => router.push('/resume'), 2000);
+      } else if (lower.includes('about')) {
+        setTimeout(() => router.push('/about'), 2000);
+      }
+
+    } catch (error) {
+      console.error("Chat error:", error);
+      setMessages(prev => [...prev, { 
+        id: (Date.now() + 1).toString(), 
+        type: 'system', 
+        content: "Network error. Please try again later." 
+      }]);
+    } finally {
       setIsTyping(false);
-    }, 1000);
+    }
   }, [router]);
 
   return (
@@ -188,8 +214,9 @@ export default function ChatInterface() {
           <form
             onSubmit={(e) => { e.preventDefault(); handleSendMessage(inputValue); }}
             className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-2"
+            suppressHydrationWarning
           >
-            <button type="button" className="p-2 text-foreground/50 hover:text-brand-purple transition-colors">
+            <button type="button" className="p-2 text-foreground/50 hover:text-brand-purple transition-colors" suppressHydrationWarning>
               <Mic className="w-5 h-5" />
             </button>
             <input
@@ -198,11 +225,13 @@ export default function ChatInterface() {
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask me anything about this portfolio..."
               className="flex-1 bg-transparent outline-none text-sm px-2"
+              suppressHydrationWarning
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
               className="p-2 bg-brand-purple hover:bg-brand-purple/80 text-white rounded-lg transition-colors disabled:opacity-50"
+              suppressHydrationWarning
             >
               <Send className="w-4 h-4" />
             </button>
