@@ -125,7 +125,7 @@ export default function ChatInterface() {
           </h3>
           <div className="flex flex-col gap-2">
             {['"What projects have you built?"', '"What are your skills?"', '"How can I contact you?"'].map(q => (
-              <button key={q} onClick={() => handleSendMessage(q.replace(/"/g, ''))} className="text-left text-xs bg-white/5 hover:bg-white/10 p-2 rounded-lg transition-colors text-foreground/80">
+              <button key={q} onClick={() => handleSendMessage(q.replace(/"/g, ''))} className="text-left text-xs bg-[var(--color-card-border)] hover:bg-white/10 p-2 rounded-lg transition-colors text-foreground/80">
                 {q}
               </button>
             ))}
@@ -164,8 +164,8 @@ export default function ChatInterface() {
                 <div
                   className={`max-w-[80%] rounded-2xl p-4 text-sm leading-relaxed ${
                     msg.type === 'user'
-                      ? 'bg-brand-purple/20 border border-brand-purple/30 text-white'
-                      : 'bg-white/5 border border-white/10 text-foreground/90'
+                      ? 'bg-brand-purple/20 border border-brand-purple/30 text-[var(--foreground)]'
+                      : 'bg-[var(--color-card-border)] border border-[var(--color-card-border)] text-foreground/90'
                   }`}
                 >
                   {msg.type === 'system' && msg.id === '1' && <span className="mr-2">👋</span>}
@@ -182,7 +182,7 @@ export default function ChatInterface() {
                 <div className="w-8 h-8 rounded-full bg-brand-purple/20 flex items-center justify-center shrink-0">
                   <Bot className="w-4 h-4 text-brand-purple" />
                 </div>
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex gap-1 items-center">
+                <div className="bg-[var(--color-card-border)] border border-[var(--color-card-border)] rounded-2xl p-4 flex gap-1 items-center">
                   <div className="w-1.5 h-1.5 rounded-full bg-brand-purple animate-bounce" style={{ animationDelay: '0ms' }} />
                   <div className="w-1.5 h-1.5 rounded-full bg-brand-purple animate-bounce" style={{ animationDelay: '150ms' }} />
                   <div className="w-1.5 h-1.5 rounded-full bg-brand-purple animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -205,7 +205,7 @@ export default function ChatInterface() {
               <button
                 key={btn.label}
                 onClick={() => handleSendMessage(`Show me your ${btn.label.toLowerCase()}`)}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium bg-[var(--color-card-border)] border border-[var(--color-card-border)] hover:bg-white/10 transition-colors"
               >
                 <btn.icon className="w-3.5 h-3.5 text-brand-purple" />
                 {btn.label}
@@ -215,7 +215,7 @@ export default function ChatInterface() {
 
           <form
             onSubmit={(e) => { e.preventDefault(); handleSendMessage(inputValue); }}
-            className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-2"
+            className="flex items-center gap-2 bg-[var(--color-card-bg)] border border-[var(--color-card-border)] rounded-xl p-2 glass-input"
             suppressHydrationWarning
           >
             <button type="button" className="p-2 text-foreground/50 hover:text-brand-purple transition-colors" suppressHydrationWarning>

@@ -13,6 +13,23 @@
 :root {
   --background: #0a0b10;
   --foreground: #f8fafc;
+  --color-brand-purple: #8b5cf6;
+  --color-brand-blue: #3b82f6;
+  --color-brand-dark: #0f111a;
+  --color-card-bg: rgba(30, 30, 45, 0.7);
+  --color-card-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+:root.light {
+  --background: #f0f4ff; /* soft pastel gradient background will be applied via body */
+  --foreground: #1e1e2f;
+  --color-brand-purple: #7c3aed;
+  --color-brand-blue: #2563eb;
+  --color-brand-dark: #ffffff;
+  --color-card-bg: rgba(255, 255, 255, 0.85);
+  --color-card-border: rgba(0, 0, 0, 0.05);
+  --glass-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.25), 0 0 20px 0 rgba(59, 130, 246, 0.15);
 }
 
 body {
@@ -22,6 +39,15 @@ body {
   background-attachment: fixed;
   font-family: var(--font-sans), sans-serif;
   min-height: 100vh;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+:root.light body {
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(circle at top left, rgba(168, 240, 246, 0.8), transparent 50%), 
+    radial-gradient(circle at top right, rgba(235, 204, 255, 0.6), transparent 50%),
+    radial-gradient(circle at bottom left, rgba(210, 230, 255, 0.5), transparent 50%);
 }
 
 @media (pointer: fine) {
@@ -37,6 +63,9 @@ body {
 ::-webkit-scrollbar-track {
   background: rgba(15, 17, 26, 0.5);
 }
+:root.light ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
 ::-webkit-scrollbar-thumb {
   background: rgba(139, 92, 246, 0.3);
   border-radius: 4px;
@@ -51,10 +80,22 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--color-card-border);
   border-radius: 1rem;
+  box-shadow: var(--glass-shadow);
+  transition: background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-input {
+  box-shadow: var(--glass-shadow);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+:root.light .glass-input {
+  background-color: #ffffff;
+  border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .brand-text {
-  background: linear-gradient(to right, #60a5fa, #a78bfa);
+  background: linear-gradient(to right, var(--color-brand-blue), var(--color-brand-purple));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
